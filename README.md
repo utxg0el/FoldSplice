@@ -31,7 +31,7 @@ or from the shell: `foldsplice predict tissue genes.fa out.tsv`
 
 ## evals
 
-Everything is in `data/` except the PNAS folds (360 MB), grab those first:
+Everything is in `data/`, grab those first:
 
 ```bash
 curl -L -o data/pnas/exon_folds.npy https://github.com/utxg0el/FoldSplice/releases/download/v0.1/exon_folds.npy
