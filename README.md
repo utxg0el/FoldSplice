@@ -86,7 +86,7 @@ Recipes:
 - site: AdamW 1e-3, batch 12, cosine warm restarts every 5 epochs (min 1e-5), 30 epochs, best val loss
 - tissue: AdamW 5e-4, batch 12, warm restarts at 2/6/14 epochs, 14 epochs + best val loss, then 4 epochs per head
 
-## adding stuff
+## template to extend
 
 New model: `models/<name>.py` (`Net`, `CHANNELS`, `readouts`), `data/<name>.py`, `train/<name>.py`, and add it to
 `MODELS` in `__main__.py`. Weights go in `weights/<name>/{fold,seq}/s<seed>.pt`.
