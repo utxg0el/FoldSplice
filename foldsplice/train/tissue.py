@@ -1,8 +1,7 @@
-"""FoldSplice-Tissue training.
+"""Tissue model training.
 
-Stage 1 trains all 8 heads jointly (14 epochs, warm restarts at 2, 6, 14; keep the best validation epoch).
-Stage 2 fine-tunes one head from the stage-1 checkpoint (4 epochs; keep the last).
-Heads: 2t = P(splice) and 2t + 1 = usage for tissue t in heart, liver, brain, testis.
+Stage 1: all 8 heads, 14 epochs, best val. Stage 2: one head from the stage-1 weights, 4 epochs, last.
+Head 2t = P(splice), 2t + 1 = usage, t over heart, liver, brain, testis.
 """
 from pathlib import Path
 
@@ -29,7 +28,7 @@ class Windows(data.Dataset):
 
     def __getitem__(self, i):
         self.reads += 1
-        if self.h5 is None or self.reads % 100000 == 0:
+        if self.h5 is None or self.reads % 100000 == 0:  # reopen now and then, h5py memory grows otherwise
             if self.h5 is not None:
                 self.h5.close()
             self.h5 = h5py.File(self.path, "r")
@@ -68,7 +67,7 @@ def train(dataset, out, n_in=12, seed=1, epochs=14, head=None, init=None, worker
     train_ds, val_ds = data.random_split(ds, (len(ds) - n_val, n_val))
     pin = dev.type == "cuda"
     train_dl = data.DataLoader(train_ds, BATCH, shuffle=True, num_workers=workers, pin_memory=pin)
-    val_dl = data.DataLoader(val_ds, BATCH, shuffle=True, num_workers=workers, pin_memory=pin)
+    val_dl = data.DataLoader(val_ds, BATCH, shuffle=True, num_workers=workers, pin_memory=pin)  # keeps the RNG stream as before
     net = Net(n_in)
     if init is not None:
         net.load_state_dict(torch.load(init, map_location="cpu", weights_only=True))

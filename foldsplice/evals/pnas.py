@@ -1,9 +1,4 @@
-"""Liao et al. 2023 minigene library: does a model over-predict inclusion of exons that fold tightly?
-
-Each 70-nt test exon sits in the 8,612-nt Lib2 minigene; inclusion = 0.5 (P(acceptor) + P(donor)) at the cassette.
-Predictions are mapped to measured PSI by an isotonic fit in logit space, and the blind spot is the slope on
-predicted MFE in  error ~ 1 + MFE + PSI  (Liu et al.); 0 means no structure blind spot.
-"""
+"""Liao 2023 minigene library: slope of the calibrated error on exon MFE (err ~ 1 + MFE + PSI, Liu et al.), 0 = no blind spot."""
 import re
 from multiprocessing import Pool
 from pathlib import Path
@@ -19,6 +14,7 @@ from foldsplice.models import ARMS, family, load
 from foldsplice.predict import run
 
 DATA = Path(__file__).resolve().parents[2] / "data" / "pnas"
+# Lib2 coords: exon slot, the stretch whose fold depends on the exon, cassette acceptor/donor
 SLOT = 3518, 3588
 PATCH = 3318, 3788
 SITES = [3515, 3590]

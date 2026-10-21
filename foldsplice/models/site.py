@@ -10,6 +10,7 @@ CL = 2 * int(np.sum(AR * (W - 1)))
 CHANNELS = ["neither", "acceptor", "donor"]
 
 
+# names match the checkpoints
 class ResidualUnit(nn.Module):
     def __init__(self, l, w, ar):
         super().__init__()

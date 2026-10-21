@@ -1,7 +1,4 @@
-"""Kumar et al. 2022, MAPT exon 10: 47 variants with measured inclusion and the unfolding free energy of the
-exon 10 / intron 10 stem (strucMean). A structure-blind model's error falls as the stem gets more stable
-(blind_r < 0); blind_r near 0 means the model accounts for the stem.
-"""
+"""MAPT exon 10, 47 variants (Kumar 2022): correlation of the error with stem stability (strucMean), 0 = no blind spot."""
 from multiprocessing import Pool
 from pathlib import Path
 
@@ -15,7 +12,7 @@ from foldsplice.predict import run
 
 DATA = Path(__file__).resolve().parents[2] / "data" / "mapt"
 START = 45894554
-ACC, DON = 115756, 115848
+ACC, DON = 115756, 115848  # 0-based; old notebooks had 115755, off by one
 
 
 def read_fa(path):

@@ -10,7 +10,7 @@ MARGIN = 300
 
 def accessibility(seq):
     """(len(seq), 8) float16: P(the 1..8-mer ending at each position is unpaired), RNAplfold -W 200 -L 150 -u 8 -T 37."""
-    s = seq.upper().replace("T", "U")
+    s = seq.upper().replace("T", "U")  # needs U, the tetraloop table is keyed on it
     w = min(W, len(s))
     a = np.array(RNA.pfl_fold_up(s, U, w, min(L, w)), dtype=np.float64)[1:, 1:]
     if np.isnan(a[:, 0]).any():

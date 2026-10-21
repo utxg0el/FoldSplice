@@ -1,8 +1,7 @@
-"""Liao et al. 2023 stem-loop series: each single mutation opens an exonic stem and raises inclusion,
-the double mutant re-pairs it and inclusion falls back. A structure-aware model should go up, up, down.
+"""Liao 2023 stem loops: two stem-breaking singles and the double that re-pairs them.
 
-rescue  = mean over series of (single1 + single2) / 2 - (wt + double) / 2, in PSI points after the PNAS calibration
-capture = mean model epistasis / mean measured epistasis, epistasis = L(double) - L(single1) - L(single2) + L(wt)
+rescue = (single1 + single2) / 2 - (wt + double) / 2 in calibrated PSI points, averaged over series.
+capture = mean model epistasis / mean measured epistasis, epistasis = L(double) - L(single1) - L(single2) + L(wt).
 """
 from pathlib import Path
 
@@ -55,12 +54,13 @@ def metrics(path, pnas_path):
 
 
 def prepare(raw, jobs=None):
-    """Attach measured PSI from Liao et al. to each construct by its mutations (labels count from 3 nt before the exon)."""
+    """Attach measured PSI to each construct, matched by its mutations."""
     t = table()
     csv = pd.read_csv(Path(raw) / "Liao_2023_StemLoop_Predictions.csv").set_index("sequence_id")
     for i, row in t.iterrows():
         wt = t.sequence[i - VARIANTS.index(row.variant)]
-        muts = [(int(m[:-3]) - 3, m[-3], m[-1]) for m in row.label.replace("U", "T").split()[1:]]
+        muts = [(int(m[:-3]) - 3, m[-3], m[-1])  # labels count from 3 nt upstream of the exon
+                for m in row.label.replace("U", "T").split()[1:]]
         assert sorted(muts) == [(j + 1, a, b) for j, (a, b) in enumerate(zip(wt, row.sequence)) if a != b]
         t.loc[i, "psi"] = csv.loc[row.label, "measured_psi"]
     t.to_csv(DATA / "stemloops.tsv", sep="\t", index=False)

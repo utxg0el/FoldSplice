@@ -1,4 +1,4 @@
-"""FoldSplice-Tissue training windows from 4-tissue splice tables (datafile_<species>_<n>_<split>_all.h5) and gene folds."""
+"""Tissue model training windows from the 4-tissue splice-table datafiles + one fold per gene."""
 from pathlib import Path
 
 import h5py
@@ -32,6 +32,7 @@ def genes(datafile):
                 yield f"{_stem(datafile)}_{i}", body
 
 
+# -3 unexpressed, -2 too few reads, -1 spliced but no usage estimate
 def _spliced(cov):
     if cov == "":
         return 0

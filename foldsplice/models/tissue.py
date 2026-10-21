@@ -14,6 +14,7 @@ USAGE = [2, 5, 8, 11]
 CHANNELS = [f"{t}_{k}" for t in TISSUES for k in ("unspliced", "spliced", "usage")]
 
 
+# names match the checkpoints
 class ResBlock(nn.Module):
     def __init__(self, l, w, ar):
         super().__init__()

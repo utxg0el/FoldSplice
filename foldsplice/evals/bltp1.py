@@ -1,6 +1,4 @@
-"""BLTP1 c.13476C>T (exon 79, epileptic encephalopathy): the substitution stabilises an exonic stem and
-inclusion falls from 100% to 50% (measured dPSI = -50); sequence-only models predict almost no change.
-"""
+"""BLTP1 c.13476C>T (exon 79): stabilises an exonic stem, measured dPSI -50."""
 from pathlib import Path
 
 import numpy as np

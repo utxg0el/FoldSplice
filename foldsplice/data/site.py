@@ -1,4 +1,4 @@
-"""FoldSplice-Site training windows from `openspliceai create-data` datafiles (SEQ, LABEL) and gene folds."""
+"""Site model training windows from per-gene datafiles (SEQ, LABEL) + one fold per gene."""
 from pathlib import Path
 
 import h5py

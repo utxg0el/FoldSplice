@@ -1,4 +1,4 @@
-"""FoldSplice-Site training: AdamW 1e-3, cosine warm restarts every 5 epochs (per-batch), batch 12, best validation loss."""
+"""Site model training: AdamW 1e-3, batch 12, cosine warm restarts every 5 epochs, best val loss."""
 from pathlib import Path
 
 import h5py
@@ -55,7 +55,7 @@ def train(train_h5, val_h5, out, n_in=12, seed=1, epochs=30):
     opt = torch.optim.AdamW(net.parameters(), lr=1e-3)
     sched = torch.optim.lr_scheduler.CosineAnnealingWarmRestarts(opt, T_0=5, T_mult=1, eta_min=1e-5)
     with h5py.File(train_h5, "r") as tr, h5py.File(val_h5, "r") as va:
-        order = np.random.RandomState(seed).permutation(n_shards(tr))
+        order = np.random.RandomState(seed).permutation(n_shards(tr))  # same order every epoch, as in the original runs
         per_epoch = sum(len(tr[f"X{k}"]) // BATCH for k in order)
         step, best = 0, float("inf")
         for epoch in range(epochs):
