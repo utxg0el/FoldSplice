@@ -1,0 +1,7 @@
+__pycache__/
+*.egg-info/
+raw/
+results/
+data/pnas/exon_folds.npy
+.ipynb_checkpoints/
+.DS_Store

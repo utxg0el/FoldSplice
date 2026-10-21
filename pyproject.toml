@@ -1,0 +1,27 @@
+[build-system]
+requires = ["setuptools>=64"]
+build-backend = "setuptools.build_meta"
+
+[project]
+name = "foldsplice"
+version = "0.1.0"
+description = "Splice-site prediction from sequence and RNA secondary structure"
+readme = "README.md"
+requires-python = ">=3.10"
+dependencies = [
+    "numpy",
+    "pandas",
+    "scipy",
+    "scikit-learn",
+    "h5py",
+    "torch>=2.0",
+    "ViennaRNA>=2.6",
+    "joblib",
+    "matplotlib",
+]
+
+[project.scripts]
+foldsplice = "foldsplice.__main__:main"
+
+[tool.setuptools.packages.find]
+include = ["foldsplice*"]
